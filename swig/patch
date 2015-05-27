@@ -1,0 +1,216 @@
+--- binfile_wrap.cxx	2015-05-27 14:53:30.155868541 +0100
++++ binfile_wrap.cxx-withnumpy	2015-05-27 14:53:23.055662545 +0100
+@@ -5405,6 +5405,30 @@
+   return NULL;
+ }
+ 
++int NumpyDtypeFromBilDataType(unsigned short int datatype)
++{
++   switch(datatype)
++   {
++      case 1:
++         return NPY_UBYTE;
++      case 2:
++         return NPY_SHORT;
++      case 12:
++         return NPY_USHORT;
++      case 3:
++         return NPY_INT;
++      case 13:
++         return NPY_UINT;
++      case 4:
++         return NPY_FLOAT;
++      case 5:
++         return NPY_DOUBLE;
++      default:
++         //Need to throw exception instead but dont know how ...
++         return NPY_DOUBLE;
++   }
++}
++
+ 
+ SWIGINTERN PyObject *_wrap_BinFile_Readline__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+   PyObject *resultobj = 0;
+@@ -5415,14 +5439,6 @@
+   PyObject *array2 = NULL ;
+   PyObject * obj0 = 0 ;
+   
+-  {
+-    npy_intp dims[1] = {
+-      arg2_dim0 
+-    };
+-    array2 = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
+-    if (!array2) SWIG_fail;
+-    arg2 = (char *) array_data(array2);
+-  }
+   if (!PyArg_ParseTuple(args,(char *)"O:BinFile_Readline",&obj0)) SWIG_fail;
+   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_BinFile, 0 |  0 );
+   if (!SWIG_IsOK(res1)) {
+@@ -5430,6 +5446,14 @@
+   }
+   arg1 = reinterpret_cast< BinFile * >(argp1);
+   {
++    npy_intp dims[1] = {
++      arg1->NumSamples()*arg1->NumBands()
++    };
++    array2 = PyArray_SimpleNew(1, dims, NumpyDtypeFromBilDataType(arg1->GetDataType()));
++    if (!array2) SWIG_fail;
++    arg2 = (char *) array_data(array2);
++  }
++  {
+     try
+     {
+       try {
+@@ -5477,21 +5501,21 @@
+   int ecode3 = 0 ;
+   PyObject * obj0 = 0 ;
+   PyObject * obj1 = 0 ;
+-  
+-  {
+-    npy_intp dims[1] = {
+-      arg2_dim0 
+-    };
+-    array2 = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
+-    if (!array2) SWIG_fail;
+-    arg2 = (char *) array_data(array2);
+-  }
++
+   if (!PyArg_ParseTuple(args,(char *)"OO:BinFile_Readline",&obj0,&obj1)) SWIG_fail;
+   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_BinFile, 0 |  0 );
+   if (!SWIG_IsOK(res1)) {
+     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "BinFile_Readline" "', argument " "1"" of type '" "BinFile *""'"); 
+   }
+   arg1 = reinterpret_cast< BinFile * >(argp1);
++  {
++    npy_intp dims[1] = {
++      arg1->NumSamples()*arg1->NumBands()
++    };
++    array2 = PyArray_SimpleNew(1, dims, NumpyDtypeFromBilDataType(arg1->GetDataType()));
++    if (!array2) SWIG_fail;
++    arg2 = (char *) array_data(array2);
++  }
+   ecode3 = SWIG_AsVal_unsigned_SS_int(obj1, &val3);
+   if (!SWIG_IsOK(ecode3)) {
+     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "BinFile_Readline" "', argument " "3"" of type '" "unsigned int""'");
+@@ -5594,14 +5618,6 @@
+   PyObject * obj1 = 0 ;
+   PyObject * obj2 = 0 ;
+   
+-  {
+-    npy_intp dims[1] = {
+-      arg2_dim0 
+-    };
+-    array2 = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
+-    if (!array2) SWIG_fail;
+-    arg2 = (char *) array_data(array2);
+-  }
+   if (!PyArg_ParseTuple(args,(char *)"OOO:BinFile_Readlines",&obj0,&obj1,&obj2)) SWIG_fail;
+   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_BinFile, 0 |  0 );
+   if (!SWIG_IsOK(res1)) {
+@@ -5619,6 +5635,14 @@
+   } 
+   arg4 = static_cast< unsigned int >(val4);
+   {
++    npy_intp dims[1] = {
++      arg1->NumSamples()*arg1->NumBands()*arg4
++    };
++    array2 = PyArray_SimpleNew(1, dims, NumpyDtypeFromBilDataType(arg1->GetDataType()));
++    if (!array2) SWIG_fail;
++    arg2 = (char *) array_data(array2);
++  }
++  {
+     try
+     {
+       try {
+@@ -5667,14 +5691,6 @@
+   PyObject * obj0 = 0 ;
+   PyObject * obj1 = 0 ;
+   
+-  {
+-    npy_intp dims[1] = {
+-      arg2_dim0 
+-    };
+-    array2 = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
+-    if (!array2) SWIG_fail;
+-    arg2 = (char *) array_data(array2);
+-  }
+   if (!PyArg_ParseTuple(args,(char *)"OO:BinFile_Readbytes",&obj0,&obj1)) SWIG_fail;
+   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_BinFile, 0 |  0 );
+   if (!SWIG_IsOK(res1)) {
+@@ -5687,6 +5703,14 @@
+   } 
+   arg3 = static_cast< unsigned long >(val3);
+   {
++    npy_intp dims[1] = {
++      arg3 
++    };
++    array2 = PyArray_SimpleNew(1, dims, NumpyDtypeFromBilDataType(arg1->GetDataType()));
++    if (!array2) SWIG_fail;
++    arg2 = (char *) array_data(array2);
++  }
++  {
+     try
+     {
+       try {
+@@ -5735,15 +5759,7 @@
+   PyObject * obj0 = 0 ;
+   PyObject * obj1 = 0 ;
+   int result;
+-  
+-  {
+-    npy_intp dims[1] = {
+-      arg2_dim0 
+-    };
+-    array2 = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
+-    if (!array2) SWIG_fail;
+-    arg2 = (char *) array_data(array2);
+-  }
++ 
+   if (!PyArg_ParseTuple(args,(char *)"OO:BinFile_Readband",&obj0,&obj1)) SWIG_fail;
+   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_BinFile, 0 |  0 );
+   if (!SWIG_IsOK(res1)) {
+@@ -5756,6 +5772,14 @@
+   } 
+   arg3 = static_cast< unsigned int >(val3);
+   {
++    npy_intp dims[1] = {
++      arg1->NumSamples()*arg1->NumLines()
++    };
++    array2 = PyArray_SimpleNew(1, dims, NumpyDtypeFromBilDataType(arg1->GetDataType()));
++    if (!array2) SWIG_fail;
++    arg2 = (char *) array_data(array2);
++  }
++  {
+     try
+     {
+       try {
+@@ -5809,14 +5833,6 @@
+   PyObject * obj2 = 0 ;
+   int result;
+   
+-  {
+-    npy_intp dims[1] = {
+-      arg2_dim0 
+-    };
+-    array2 = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
+-    if (!array2) SWIG_fail;
+-    arg2 = (char *) array_data(array2);
+-  }
+   if (!PyArg_ParseTuple(args,(char *)"OOO:BinFile_Readbandline",&obj0,&obj1,&obj2)) SWIG_fail;
+   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_BinFile, 0 |  0 );
+   if (!SWIG_IsOK(res1)) {
+@@ -5834,6 +5850,14 @@
+   } 
+   arg4 = static_cast< unsigned int >(val4);
+   {
++    npy_intp dims[1] = {
++      arg1->NumSamples()
++    };
++    array2 = PyArray_SimpleNew(1, dims, NumpyDtypeFromBilDataType(arg1->GetDataType()));
++    if (!array2) SWIG_fail;
++    arg2 = (char *) array_data(array2);
++  }
++  {
+     try
+     {
+       try {
