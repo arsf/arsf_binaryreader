@@ -7,6 +7,7 @@
 static PyObject* pMyException;
 %}
 
+//Initialise the exception object for the BRexception catching
 %init %{
    pMyException = PyErr_NewException("_binfile.BRexception",NULL,NULL);
    Py_INCREF(pMyException);
@@ -23,14 +24,15 @@ static PyObject* pMyException;
 //Allow types like uint64_t
 %include "stdint.i"
 
+//Add function support for creating arrays of certain data types - may not be required anymore since we are using numpy now.
 %include "carrays.i"
 %include "cdata.i"
 %array_class(char, charArray);
 %array_class(unsigned short int,uint16Array);
 %array_class(double, doubleArray);
 
-%catches(std::string,const char *,...);
-
+//Add exception support for strings and const char* 
+%catches(std::string,const char *,...);=
 %typemap(throws) const char * %{
    PyErr_SetString(PyExc_RuntimeError, $1);
    SWIG_fail;
@@ -40,19 +42,23 @@ static PyObject* pMyException;
    SWIG_fail;
 %}
 
+//The numpy interface file
 %include "numpy.i"
 
+//Initialise for numpy
 %init %{
    import_array();
 %}
 
+//This converts char* to numpy arrays in the wrapper - but fails to compile because the dimension is not specified.
+//Using the double* ARGOUT_ARRAY requires a dimension to be given and would (maybe) require wrapping all function calls to remove this.
+//So we use the first method and apply a patch to the generated wrapped code to get the dimension from the BinFile methods.
 %apply (double ARGOUT_ARRAY1[ANY]){(char* chdata)}
-//void BinFile::Readlines(char* const ARGOUT_ARRAY1,int DIM1, unsigned int startline,unsigned int numlines);
-
 
 //Ignore the default constructor that takes no input
 %ignore BinFile();
 
+//Exception wrapper to convert BRexceptions into a python catchable exception (using runtime errors here)
 %exception{
    try
    {
@@ -65,5 +71,4 @@ static PyObject* pMyException;
 }
 
 //Load in the binfile interface
-%include "../src/binfile.h"
 %include "../src/binfile.h"
