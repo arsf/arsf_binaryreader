@@ -50,13 +50,13 @@ libs=libs
 # file to save dependencies to
 dependfile = .depend
 
+# Make all the exes
+all: $(dependfile) setupenv $(libs)/libbinaryreader.a $(libs)/libbinaryreader.so
+
 #Set up environment if not already done
 setupenv:
 	test -d $(obj) || mkdir -p $(obj)
 	test -d $(libs) || mkdir -p $(libs)
-
-# Make all the exes
-all: $(dependfile) setupenv $(libs)/libbinaryreader.a $(libs)/libbinaryreader.so
 
 so: $(libs)/libbinaryreader.so
 
