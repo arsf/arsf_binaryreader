@@ -57,7 +57,7 @@ BSQReader::BSQReader(std::string fname)
       {
          this->CannotFind("interleave");
       }
-      if( it->second != "bsq")
+      if( ToLowerCase(it->second) != "bsq")
       {
          brinfo<<"Header file states file "<<this->filename<<" is not a bsq file but a "<<it->second<<std::endl;
          throw BRexception(brinfo.str()); //Throw an exception
@@ -134,7 +134,7 @@ void BSQReader::Readlines(char* const chdata, unsigned int startline, unsigned i
    //DEBUG statement
    DEBUGPRINT("Reading Lines from BSQ...from "<<startline<<" reading "<<numlines<<" lines.");
    //number of bytes that should be read from the file
-   //uint64_t nbytestoread=(this->numsamples * this->datasize * this->numbands) * numlines;
+   uint64_t nbytestoread=(this->numsamples * this->datasize * this->numbands) * numlines;
    uint64_t bytesperline=(this->numsamples * this->datasize); 
    //position at which to start reading from
    //unsigned long int pos=bytesperline * startline;

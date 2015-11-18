@@ -23,7 +23,7 @@ BinFile::BinFile(std::string filename)
       //If it opens correctly we assume it is a normal bil/bsq
       br=new BinaryReader(filename);
    }
-   catch(BRexception bre)
+   catch(BinaryReader::BRexception bre)
    {
       //something other than no hdr file happened ... throw it
       if(bre.info.find("Unable to open a hdr file, does one exist?")==std::string::npos)

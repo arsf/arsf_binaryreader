@@ -32,20 +32,6 @@
 //   #define FileTell(X) ftello(X);
 //#endif
 
-//Class to handle exceptions
-class BRexception
-{
-public:
-   std::string info; //pointer to BILReader stringstream bilinfo
-   BRexception(std::string ss,const char* extra){info=ss+"\n"+std::string(extra);}
-   BRexception(std::string ss){info=ss;};  
-
-   const char* what() const throw()
-   {
-      return "A BinaryReader Exception has occurred.";
-   }
-
-};
 
 class BinaryReader
 {
@@ -89,6 +75,21 @@ public:
    virtual int Ferror()const{return ferror(filein);}
    virtual int Feof()const{return feof(filein);}
    virtual void Close(); //Close the file, free any allocated memory, call the destructor
+
+   //Class to handle exceptions
+   class BRexception
+   {
+   public:
+      std::string info; //pointer to BILReader stringstream bilinfo
+      BRexception(std::string ss,const char* extra){info=ss+"\n"+std::string(extra);}
+      BRexception(std::string ss){info=ss;};  
+
+      const char* what() const throw()
+      {
+         return "A BinaryReader Exception has occurred.";
+      }
+   
+   };
 
    enum interleavetype {BSQ,BIL,UNKNOWN};
    interleavetype GetFileStyle(){return FILESTYLE;};
