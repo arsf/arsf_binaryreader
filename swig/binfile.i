@@ -32,7 +32,7 @@ static PyObject* pMyException;
 %array_class(double, doubleArray);
 
 //Add exception support for strings and const char* 
-%catches(std::string,const char *,...);=
+%catches(std::string,const char *,...);
 %typemap(throws) const char * %{
    PyErr_SetString(PyExc_RuntimeError, $1);
    SWIG_fail;
@@ -64,7 +64,7 @@ static PyObject* pMyException;
    {
       $action
    }
-   catch(BRexception &br)
+   catch(BinaryReader::BRexception &br)
    {
       SWIG_exception(SWIG_RuntimeError, (std::string(br.what())+br.info).c_str());
    }

@@ -9,5 +9,5 @@ Build Instructions
 These commands should build a working version of the python library. Note that a patch is required probably because the binfile.i interface is not as good as it could be.
 
 swig -python -c++ binfile.i
-patch binfile_wrapper.cxx < patch
+patch binfile_wrap.cxx < patch
 python setup.py build_ext
