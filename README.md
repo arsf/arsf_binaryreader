@@ -14,4 +14,4 @@ To build the main C++ library Under linux, run:
 ```
 make all
 ```
-To also buld Python bindings follow the [SWIG instructions](swig/README.md)
+To also build Python bindings follow the [SWIG instructions](swig/README.md).
